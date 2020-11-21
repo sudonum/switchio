@@ -182,9 +182,13 @@ class EventLoop(object):
                       self.host))
 
     def get_tasks(self, include_current=False):
-        tasks = asyncio.all_tasks(self.loop)
+        all_tasks = (getattr(asyncio, 'all_tasks', None)
+                     or asyncio.Task.all_tasks)
+        current_task = (getattr(asyncio, 'current_task', None)
+                     or asyncio.Task.current_task)
+        tasks = all_tasks(self.loop)
         if not include_current:
-            curr = asyncio.current_task(self.loop)
+            curr = current_task(self.loop)
             tasks.discard(curr)
         return tuple(tasks)
 
