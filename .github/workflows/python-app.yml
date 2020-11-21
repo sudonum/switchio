@@ -5,9 +5,9 @@ name: Python application
 
 on:
   push:
-    branches: [ bugfix/tests ]
+    branches: [ experiement ]
   pull_request:
-    branches: [ bugfix/tests ]
+    branches: [ experiment ]
 
 jobs:
   test:
@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python_version: ['3.6', '3.7', '3.8']
+        python_version: ['3.7']
 
     steps:
     - uses: actions/checkout@v2
