@@ -19,16 +19,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Docker
-      uses: docker-practice/actions-setup-docker@v1
-      with:
-        docker_channel: stable
     - name: Set up Python ${{ matrix.python_version }}
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python_version }}
     - name: Install system dependencies
       run: |
+        docker version
         sudo apt install -y libpcap-dev libsctp-dev libncurses5-dev libssl-dev libgsl0-dev
         git clone https://github.com/SIPp/sipp.git && cd sipp && ./build.sh --full
         export PATH=\"$PWD:$PATH\"
