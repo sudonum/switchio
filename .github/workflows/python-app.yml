@@ -25,7 +25,6 @@ jobs:
         python-version: ${{ matrix.python_version }}
     - name: Install system dependencies
       run: |
-        docker version
         sudo apt install -y libpcap-dev libsctp-dev libncurses5-dev libssl-dev libgsl0-dev
         git clone https://github.com/SIPp/sipp.git && cd sipp && ./build.sh --full
         export PATH=\"$PWD:$PATH\"
