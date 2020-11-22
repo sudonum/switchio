@@ -12,24 +12,23 @@ on:
 jobs:
   test:
 
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     strategy:
       matrix:
         python_version: ['3.7']
 
     steps:
     - uses: actions/checkout@v2
-    - name: setup-docker
-      uses: docker-practice/actions-setup-docker@v1
-      with:
-        docker_version: 19.03
     - name: Set up Python ${{ matrix.python_version }}
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python_version }}
     - name: Install system dependencies
       run: |
-        sudo apt install -y libpcap-dev libsctp-dev libncurses5-dev libssl-dev libgsl0-dev sip-tester
+        sudo apt update
+        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+        sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
+        sudo apt install -y libpcap-dev libsctp-dev libncurses5-dev libssl-dev libgsl0-dev sip-tester docker-ce
     - name: Install app dependencies
       run: |
         python -m pip install --upgrade pip
@@ -37,5 +36,6 @@ jobs:
         pip install . -r requirements-test.txt
     - name: Test with pytest
       run: |
-        docker run -d --net=bridge --name freeswitch -e SOUND_RATES=8000:16000 -e SOUND_TYPES=music:en-us-callie -v $(pwd)/freeswitch-sounds:/usr/share/freeswitch/sounds -v $(pwd)/conf/ci-minimal/:/etc/freeswitch safarov/freeswitch:1.10.3
+        sudo usermod -aG docker $USER
+        newgrp docker
         pytest --use-docker tests/
