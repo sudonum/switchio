@@ -39,5 +39,6 @@ jobs:
         ls -la conf
         docker run -d --net=bridge --name freeswitch -e SOUND_RATES=8000:16000 -e SOUND_TYPES=music:en-us-callie -v freeswitch-sounds:/usr/share/freeswitch/sounds -v $(pwd)/conf/ci-minimal/:/etc/freeswitch safarov/freeswitch:1.10.3
         sleep 20
-        docker logs freeswitch
+        docker logs freeswitch >> logs
+        cat logs
         pytest --use-docker tests/
