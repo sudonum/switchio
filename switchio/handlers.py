@@ -188,7 +188,7 @@ class EventListener(object):
                 )
             job.fail(resp)  # fail the job
             # always pop failed jobs
-            self.bg_jobs.pop(job_uuid)
+            self.bg_jobs.pop(job_uuid, None)
             # append the id for later lookup and discard?
             self.failed_jobs[resp] += 1
             consumed = True
