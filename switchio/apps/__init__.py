@@ -58,10 +58,6 @@ def app(*args, **kwargs):
 def register(cls, name=None):
     """Register an app in the global registry
     """
-    if not marks.has_callbacks(cls):
-        raise ValueError(
-            "{} contains no defined handlers or callbacks?".format(cls)
-        )
     app = _apps.setdefault(name or cls.__name__, cls)
     if cls is not app:
         raise ValueError("An app '{}' already exists with name '{}'"
