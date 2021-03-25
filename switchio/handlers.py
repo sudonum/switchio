@@ -180,7 +180,7 @@ class EventListener(object):
 
         if error:
             # if the job returned an error, report it and remove the job
-            self.log.error(
+            self.log.warning(
                 "Job '{}' corresponding to session '{}'"
                 " failed with:\n{}".format(
                     job_uuid,
