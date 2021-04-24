@@ -15,19 +15,23 @@ jobs:
     runs-on: ubuntu-20.04
     strategy:
       matrix:
-        python_version: ['3.6', '3.7', '3.8']
+        python_version: ['3.6']
 
     steps:
     - uses: actions/checkout@v2
+    - name: setup-docker
+      uses: docker-practice/actions-setup-docker@v1
+      with:
+        docker_version: 19.03
     - name: Set up Python ${{ matrix.python_version }}
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python_version }}
     - name: Install system dependencies
       run: |
-        sudo apt update
-        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-        sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
+        # sudo apt update
+        # curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+        # sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
         sudo apt install -y libpcap-dev libsctp-dev libncurses5-dev libssl-dev libgsl0-dev sip-tester docker-ce
     - name: Install app dependencies
       run: |
