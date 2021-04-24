@@ -1,0 +1,21 @@
+version: 2.1
+
+orbs:
+  python: circleci/python@0.2.1
+
+jobs:
+  build:
+    working_directory: ~/
+    docker:
+      - image: circleci/python:3.6.4
+    steps:
+      - checkout
+      - run:
+          command: |
+            sudo pip install . -r requirements-test.txt
+            pytest --use-docker tests/ -vv
+
+workflows:
+  main:
+    jobs:
+      - build
