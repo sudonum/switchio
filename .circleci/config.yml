@@ -14,7 +14,10 @@ jobs:
             sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
             sudo apt install -y libpcap-dev libsctp-dev libncurses5-dev libssl-dev libgsl0-dev sip-tester docker-ce
             sudo pip3 install . -r requirements-test.txt
+      - run:
+          command: |
             pytest --use-docker tests/ -vv
+
 
 workflows:
   main:
