@@ -10,7 +10,7 @@ jobs:
           name: "Build"
           command: |
             sudo apt update
-            sudo apt install python3 python3-pip docker-cli
+            sudo apt install python3 python3-pip docker
             # curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
             # sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
             # sudo apt install -y libpcap-dev libsctp-dev libncurses5-dev libssl-dev libgsl0-dev sip-tester docker-ce
