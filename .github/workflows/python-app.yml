@@ -29,10 +29,7 @@ jobs:
         python-version: ${{ matrix.python_version }}
     - name: Install system dependencies
       run: |
-        # sudo apt update
-        # curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-        # sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
-        sudo apt install -y libpcap-dev libsctp-dev libncurses5-dev libssl-dev libgsl0-dev sip-tester docker-ce
+        sudo apt install -y libpcap-dev libsctp-dev libncurses5-dev libssl-dev libgsl0-dev sip-tester
     - name: Install app dependencies
       run: |
         python -m pip install --upgrade pip
