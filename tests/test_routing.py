@@ -180,7 +180,7 @@ def test_break_on_true(fs_socks, service, router):
 def test_routes(scenarios, service, router, did, expect):
     """Test routing based on Request-URI user part patterns.
     """
-    if did == 'bridge_hangup' and sys.version_info >= (3, 8):
+    if did == 'bridge_hangup' and sys.version_info == (3, 8):
         pytest.skip('SIPp command fails on python 3.8')
     called = defaultdict(list)
 
