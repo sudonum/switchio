@@ -66,7 +66,7 @@ def containers(request):
     if request.config.option.usedocker:
         docker = request.getfixturevalue('dockerctl')
         with docker.run(
-            'safarov/freeswitch:1.10.3',
+            'safarov/freeswitch:latest',
             volumes={
                 projectdir('conf/ci-minimal'): {'bind': '/etc/freeswitch/'},
                 projectdir('freeswitch-sounds'): {'bind': '/usr/share/freeswitch/sounds'},
