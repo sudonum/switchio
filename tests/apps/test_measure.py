@@ -122,7 +122,7 @@ def test_buffered(measure, storer, length):
         assert ds.data.iloc[i][0] == i
 
 
-@pytest.mark.skipif(not pd, reason="No pandas installed")
+@pytest.mark.skipif(not pd, reason="This is new")
 def test_no_dtypes(measure, storer):
     """Ensure that When no explicit dtype is provided, all row entries are cast
     to float internally.
