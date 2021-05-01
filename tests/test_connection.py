@@ -22,7 +22,9 @@ def con(fshost, loop):
     con = get_connection(fshost, loop=loop)
     yield con
     con.disconnect()
-    pending = asyncio.Task.all_tasks(loop)
+    all_tasks = (getattr(asyncio, 'all_tasks', None)
+                 or asyncio.Task.all_tasks)
+    pending = all_tasks(loop)
     if pending:
         for task in pending:
             if not task.done():
@@ -33,7 +35,7 @@ def con(fshost, loop):
 @pytest.mark.parametrize(
     'password, expect_auth',
     [('doggy', False), ('ClueCon', True)],
-    ids=lambda item: "pw={}, expect_auth={}".format(*item),
+    ids=lambda item: item,
 )
 def test_connect(con, password, expect_auth):
     """Connection basics.

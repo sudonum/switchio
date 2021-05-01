@@ -192,7 +192,9 @@ class Session(object):
         fut._evname = name
 
         # keep track of consuming coroutine(s)
-        caller = asyncio.Task.current_task(loop)
+        current_task = (getattr(asyncio, 'current_task', None)
+                     or asyncio.Task.current_task)
+        caller = current_task(loop)
         self.tasks.setdefault(fut, []).append(caller)
 
         fut.add_done_callback(self.unreg_tasks)
@@ -591,7 +593,7 @@ class Job(object):
             try:
                 return self.fut.result()['Job-UUID']
             except futures.TimeoutError:
-                self.log.warn(
+                self.log.warning(
                     "Response timeout for job {}"
                     .format(self.sess_uuid)
                 )
