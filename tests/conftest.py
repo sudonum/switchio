@@ -48,19 +48,20 @@ def log(loglevel):
     return utils.log_to_stderr(loglevel)
 
 
-def projectdir(directory):
+@pytest.fixture(scope='session')
+def confdir():
     dirname = os.path.dirname
     dirpath = os.path.abspath(
         os.path.join(
             dirname(dirname(os.path.realpath(__file__))),
-            directory
+            'conf/ci-minimal/'
         )
     )
     return dirpath
 
 
 @pytest.fixture(scope='session')
-def containers(request):
+def containers(request, confdir):
     """Return a sequence of docker containers.
     """
     if request.config.option.usedocker:
@@ -68,8 +69,8 @@ def containers(request):
         with docker.run(
             'safarov/freeswitch:latest',
             volumes={
-                projectdir('conf/ci-minimal'): {'bind': '/etc/freeswitch/'},
-                projectdir('freeswitch-sounds'): {'bind': '/usr/share/freeswitch/sounds'},
+                confdir: {'bind': '/etc/freeswitch/'},
+                'freeswitch-sounds': {'bind': '/usr/share/freeswitch/sounds'},
             },
             environment={'SOUND_RATES': '8000:16000',
                          'SOUND_TYPES': 'music:en-us-callie'},
