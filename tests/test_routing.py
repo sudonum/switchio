@@ -13,6 +13,7 @@ Checklist:
 x cluster support
 x load test over multiple nodes is fast
 '''
+import sys
 import pytest
 import time
 from copy import copy
