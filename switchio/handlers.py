@@ -48,8 +48,6 @@ class EventListener(object):
         self.event_loop = event_loop
         self.sessions = OrderedDict()
         self.log = utils.get_logger(utils.pstr(self))
-        # store last 1k of each type of failed session
-        self.failed_sessions = OrderedDict()
         self.bg_jobs = OrderedDict()
         self.calls = OrderedDict()  # maps aleg uuids to Sessions instances
         self.hangup_causes = Counter()  # record of causes by category
@@ -180,7 +178,7 @@ class EventListener(object):
 
         if error:
             # if the job returned an error, report it and remove the job
-            self.log.error(
+            self.log.warning(
                 "Job '{}' corresponding to session '{}'"
                 " failed with:\n{}".format(
                     job_uuid,
@@ -188,7 +186,7 @@ class EventListener(object):
                 )
             job.fail(resp)  # fail the job
             # always pop failed jobs
-            self.bg_jobs.pop(job_uuid)
+            self.bg_jobs.pop(job_uuid, None)
             # append the id for later lookup and discard?
             self.failed_jobs[resp] += 1
             consumed = True
@@ -354,11 +352,6 @@ class EventListener(object):
         # may have been popped by the partner
         self.bg_jobs.pop(job.uuid if job else None, None)
         sess.bg_job = None  # deref job - avoid mem leaks
-
-        if not sess.answered or cause != 'NORMAL_CLEARING':
-            self.log.debug("'{}' was not successful??".format(sess.uuid))
-            self.failed_sessions.setdefault(
-                cause, deque(maxlen=1000)).append(sess)
 
         self.log.debug("hungup Session '{}'".format(uuid))
 
