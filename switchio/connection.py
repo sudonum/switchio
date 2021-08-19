@@ -84,28 +84,18 @@ async def async_reconnect(host, port, password, prot, loop, log):
     if not prot.autorecon:
         log.debug("Autorecon had been disabled")
         return
-    else:
-        count = prot.autorecon
 
-    for i in range(count):
+    while 1:
         try:
             await connect_and_auth(
                 host, port, password, prot, loop, log, timeout=1)
             break
         except ConnectionError:
-            log.warning(
-                "Failed reconnection attempt...retries"
-                " left {}".format(count - i))
-            await asyncio.sleep(0.1)
-    else:
-        log.warning(
-            "Reconnection attempts to '{}' failed. Please call"
-            " 'connect' manually when server is ready "
-            .format(host))
+            log.error("Failed reconnection attempt...")
+            await asyncio.sleep(5)
 
     if prot.connected():
-        log.info("Successfully reconnected to '{}:{}'"
-                 .format(host, port))
+        log.info(f"Successfully reconnected to '{host}:{port}'")
 
 
 class Connection(object):
