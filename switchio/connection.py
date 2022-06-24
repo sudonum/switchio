@@ -79,25 +79,6 @@ async def connect_and_auth(host, port, password, prot, loop, log, timeout=0.5):
         raise ConnectionRefusedError(msg.format(host, port))
 
 
-async def async_reconnect(host, port, password, prot, loop, log):
-    log.info("Attempting to reconnect to {}:{}".format(host, port))
-    if not prot.autorecon:
-        log.debug("Autorecon had been disabled")
-        return
-
-    while 1:
-        try:
-            await connect_and_auth(
-                host, port, password, prot, loop, log, timeout=1)
-            break
-        except ConnectionError:
-            log.error("Failed reconnection attempt...")
-            await asyncio.sleep(5)
-
-    if prot.connected():
-        log.info(f"Successfully reconnected to '{host}:{port}'")
-
-
 class Connection(object):
     """An ESL connection implemented using an ``asyncio`` TCP protocol.
 
@@ -155,17 +136,12 @@ class Connection(object):
 
         if not self.connected() or not block:
 
-            def reconnect(prot):
-                """Schedule a reconnection task.
-                """
-                self.log.debug("Scheduling a reconnection task")
-                asyncio.ensure_future(async_reconnect(
-                    host, port, password, prot,
-                    loop, self.log), loop=loop)
+            def abort(prot):
+                exit(255)
 
             prot = self.protocol = InboundProtocol(
                 self.host, password, loop, autorecon=self.autorecon,
-                on_disconnect=reconnect)
+                on_disconnect=abort)
 
             coro = connect_and_auth(
                 host, port, password, prot, self.loop, self.log)
