@@ -12,8 +12,8 @@ with open('README.rst', encoding='utf-8') as f:
 
 
 setup(
-    name="switchio",
-    version='0.1.0.alpha1',
+    name="sudonum_switchio",
+    version='0.1.1',
     description='asyncio powered FreeSWITCH cluster control',
     long_description=readme,
     license='Mozilla',
