@@ -33,7 +33,7 @@ class InboundProtocol(asyncio.Protocol):
         self.loop = loop
         self.on_disconnect = on_disconnect
         self.autorecon = autorecon
-        self.event_queue = asyncio.Queue(loop=loop)
+        self.event_queue = asyncio.Queue()
         self.log = utils.get_logger(utils.pstr(self))
         self.transport = None
         self._previous = None, None
