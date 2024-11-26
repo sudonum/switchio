@@ -8,7 +8,7 @@ Inbound ESL asyncio protocol
 """
 import asyncio
 from collections import defaultdict, deque
-from six.moves.urllib.parse import unquote
+from urllib.parse import unquote
 from . import utils
 
 # debugging - watch out pformat() is slow...

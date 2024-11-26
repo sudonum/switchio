@@ -196,8 +196,7 @@ class Session(object):
         self.tasks.setdefault(fut, []).append(caller)
 
         fut.add_done_callback(self.unreg_tasks)
-        return fut if not timeout else asyncio.wait_for(
-            fut, timeout, loop=loop)
+        return fut if not timeout else asyncio.wait_for(fut, timeout)
 
     async def poll(self, events, timeout=None,
                    return_when=asyncio.FIRST_COMPLETED):

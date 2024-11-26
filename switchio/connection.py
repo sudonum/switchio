@@ -22,7 +22,7 @@ async def await_in_order(awaitables, loop, timeout=None):
     awaitables = map(partial(asyncio.ensure_future, loop=loop), awaitables)
     for awaitable in awaitables:
         try:
-            res = await asyncio.wait_for(awaitable, timeout=timeout, loop=loop)
+            res = await asyncio.wait_for(awaitable, timeout=timeout)
         except (asyncio.CancelledError, asyncio.TimeoutError) as err:
             for awaitable in awaitables:
                 awaitable.cancel()
