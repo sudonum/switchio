@@ -1,6 +1,7 @@
 pytest>=3.4.2
 numpy
 pdbpp
+setuptools
 
 # pysipp for call tracking testing
 -e git+https://github.com/SIPp/pysipp.git#egg=pysipp
