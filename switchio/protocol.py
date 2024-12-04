@@ -152,7 +152,7 @@ class InboundProtocol(asyncio.Protocol):
                 last_key = 'Body'
                 continue
             key, sep, value = line.partition(': ')
-            if sep and key and key[0] is not '+':  # 'key: value' header
+            if sep and key and key[0] != '+':  # 'key: value' header
                 last_key = key
                 chunk[key] = value
             else:
