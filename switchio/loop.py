@@ -20,15 +20,18 @@ from .utils import get_event_time
 from .connection import get_connection
 
 
-@asyncio.coroutine
-def just_yield():
+def sync_just_yield():
+    yield
+
+
+async def just_yield():
     """A "just yield" coroutine which triggers an interation of the event loop.
 
     If you think this is a nightmare to understand have you asked yourself how
     this will ever work once these legacy types of generator "coroutines" are
     removed from the language?
     """
-    yield
+    sync_just_yield()
 
 
 def new_event_loop():

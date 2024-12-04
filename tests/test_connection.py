@@ -20,7 +20,7 @@ def loop():
 
 @pytest.fixture
 def con(fshost, loop):
-    con = get_connection(fshost, loop=loop)
+    con = get_connection(fshost)
     yield con
     con.disconnect()
     pending = utils.all_tasks(loop)
@@ -28,7 +28,7 @@ def con(fshost, loop):
         for task in pending:
             if not task.done():
                 task.cancel()
-        loop.run_until_complete(asyncio.wait(pending, loop=loop))
+        loop.run_until_complete(asyncio.wait(pending))
 
 
 @pytest.mark.parametrize(

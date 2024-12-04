@@ -1,10 +1,10 @@
 pytest>=3.4.2
 numpy
 pdbpp
-six
+setuptools
 
 # pysipp for call tracking testing
--e git+git://github.com/SIPp/pysipp.git#egg=pysipp
+-e git+https://github.com/SIPp/pysipp.git#egg=pysipp
 
 # pytest-dockerctl for container mgmt
--e git+git://github.com/tgoodlet/pytest-dockerctl.git#egg=pytest-dockerctl
+-e git+https://github.com/tgoodlet/pytest-dockerctl.git#egg=pytest-dockerctl

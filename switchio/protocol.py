@@ -8,7 +8,7 @@ Inbound ESL asyncio protocol
 """
 import asyncio
 from collections import defaultdict, deque
-from six.moves.urllib.parse import unquote
+from urllib.parse import unquote
 from . import utils
 
 # debugging - watch out pformat() is slow...
@@ -33,7 +33,7 @@ class InboundProtocol(asyncio.Protocol):
         self.loop = loop
         self.on_disconnect = on_disconnect
         self.autorecon = autorecon
-        self.event_queue = asyncio.Queue(loop=loop)
+        self.event_queue = asyncio.Queue()
         self.log = utils.get_logger(utils.pstr(self))
         self.transport = None
         self._previous = None, None
@@ -152,7 +152,7 @@ class InboundProtocol(asyncio.Protocol):
                 last_key = 'Body'
                 continue
             key, sep, value = line.partition(': ')
-            if sep and key and key[0] is not '+':  # 'key: value' header
+            if sep and key and key[0] != '+':  # 'key: value' header
                 last_key = key
                 chunk[key] = value
             else:
