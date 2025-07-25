@@ -128,6 +128,10 @@ class EventListener(object):
             return True, sess, sess.bg_job
         return False, None, None
 
+    @handler('HEARTBEAT')
+    def _heartbeat(self, e):
+        return True, None, e
+
     @handler('LOG')
     def _handle_log(self, e):
         self.log.info(e.get('Body'))
